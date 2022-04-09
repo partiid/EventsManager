@@ -8,21 +8,35 @@ namespace EventsManager.Controllers
 {
     internal class Authentication
     {
-        private String login { get;  set; }
-        private String password { get;  set; }
+        public static Authentication instance = null;
+        public UserProvider LoggedUser { get; set; }  
+
+        public String login { get;  set; }
+        public String password { get;  set; }
 
         private UserProvider UserProvider = new UserProvider(); 
 
         //TODO implement user ban after 3 bad attempts 
 
+        public Authentication() { }
         public  Authentication(string login, string password)
         {
             this.login = login;
             this.password = password;
-
-            
             
         }
+        public static Authentication GetInstance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Authentication();
+                }
+                return instance;
+            }
+        }
+       
 
         public Boolean Authenticate()
         {
@@ -33,10 +47,16 @@ namespace EventsManager.Controllers
                 //determine if password for a user is a match 
                 if (user != null)
                 {
-                    Console.WriteLine($"{user.password} :: {this.password}"); 
+                    
                     if (user.password == this.password)
                     {
+                        LoggedUser = new UserProvider(user.id, user.login, user.password, user.role);
+
+
+                        Console.WriteLine($"{LoggedUser.id}, {LoggedUser.login}, {LoggedUser.password}, {LoggedUser.role}"); 
                         return true;
+                        
+
                     }
                     return false; 
                 }

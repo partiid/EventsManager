@@ -15,7 +15,7 @@ namespace EventsManager
     {
         private static DbConnector instance = null;
 
-        private static String connectionString = "server=localhost;database=eventsmanager;user id=manager;pwd=Zaq1@WSX;"; 
+        private static String connectionString = "server=localhost;database=eventsmanager;user id=manager;pwd=Zaq1@WSX;Convert Zero Datetime=True"; 
 
         public static MySqlConnection connection { get; private set; }
 

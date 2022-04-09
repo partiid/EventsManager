@@ -28,7 +28,7 @@ namespace EventsManager.Providers.Event
         public List<EventProvider> GetEvents()
         {
             List<EventProvider> events = new List<EventProvider>();
-            ExecQuery("SELECT * FROM event"); 
+            ExecSelectQuery("SELECT * FROM event"); 
 
             events = Utils.ToList<EventProvider>(dataTable);
 
@@ -38,7 +38,16 @@ namespace EventsManager.Providers.Event
             return events; 
         }
 
-        
+        public EventProvider GetEventById(int id)
+        {
+            ExecSelectQuery($"select * from event where id={id}");
+
+            EventProvider Event = (EventProvider)Utils.ToObject<EventProvider>(dataTable);
+
+            return Event; 
+            
+            
+        }
 
     }
 }

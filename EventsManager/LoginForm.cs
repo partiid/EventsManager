@@ -11,6 +11,7 @@ using EventsManager.User;
 using System.Windows.Forms;
 using EventsManager.Controllers;
 using EventsManager.Providers.Event;
+using EventsManager.Providers;
 
 namespace EventsManager
 {
@@ -19,10 +20,12 @@ namespace EventsManager
         DbConnector database = DbConnector.GetInstance;
 
         private static UserProvider UserProvider = new UserProvider();
-        private static EventProvider EventProvider = new EventProvider(); 
+        private static EventProvider EventProvider = new EventProvider();
+        private static Authentication Authentication = Authentication.GetInstance; 
 
         private protected String userLogin = "";
-        private protected String userPassword = ""; 
+        private protected String userPassword = "";
+        private protected String userRole = ""; 
         
         public LoginForm()
         {
@@ -40,23 +43,41 @@ namespace EventsManager
         private void loginButton_Click(object sender, EventArgs e)
         {
 
-            List<EventProvider> events = EventProvider.GetEvents();
-            events.ForEach(EVENT => Console.WriteLine($"{EVENT.name} - {EVENT.agenda} - {EVENT.date}")); 
+
 
 
             //validate the fields 
 
 
             //authenticate user
-            Authentication auth = new Authentication(this.userLogin, this.userPassword);
-            if (auth.Authenticate() == false)
+            Authentication.login = this.userLogin;
+            Authentication.password = this.userPassword; 
+
+            if (Authentication.Authenticate() == false)
             {
                 labelError.Visible = true;
             }
             else
             {
-
                 labelError.Visible = false;
+
+                UserProvider user = UserProvider.GetUserByLogin(this.userLogin);
+                
+                if (user.role.ToString() == "user")
+                {
+                    this.Hide(); 
+                    UserForm userForm = new UserForm();
+                    userForm.ShowDialog();
+
+                    this.Close(); 
+                    
+                } else
+                {
+                    //todo implement admin form and show it 
+
+                }
+                
+
             }
         }
         

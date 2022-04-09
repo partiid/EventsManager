@@ -12,7 +12,7 @@ namespace EventsManager.User
 {
     internal class UserProvider : Provider
     {
-        public int id;
+        public int id { get; set; }
         public String login { get; set; }
         public String password { get; set; }
         public String role { get; set; }
@@ -40,7 +40,7 @@ namespace EventsManager.User
        
         public List<UserProvider> GetUsers()
         {
-            ExecQuery("select * from user;"); 
+            ExecSelectQuery("select * from user;"); 
 
           
             List<UserProvider> users = new List<UserProvider>();
@@ -61,6 +61,8 @@ namespace EventsManager.User
             {
                 return user.login.ToString() == login;
             });
+            
+
             return userFound;
 
         }

@@ -18,6 +18,9 @@ namespace EventsManager
             propertyInfo.SetValue(obj, value);
 
         }
+
+      
+
         public static List<T> ToList<T>(this DataTable dt)
         {
             List<T> list = Activator.CreateInstance<List<T>>();
@@ -37,6 +40,43 @@ namespace EventsManager
                 list.Add(ins);
             }
             return list;
+        }
+        public static Object ToObject<T>(this DataTable dt)
+        {
+            T instance = Activator.CreateInstance<T>();
+            var prop = instance.GetType().GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
+            foreach (DataRow dr in dt.Rows)
+            { 
+                foreach (var p in prop)
+                {
+                    try
+                    {
+                        p.SetValue(instance, dr[p.Name], null);
+                    }
+                    catch { }
+                }
+            }
+            return instance; 
+        }
+
+        public static DataTable ToDataTable(object o)
+        {
+            DataTable dt = new DataTable("OutputData");
+
+            DataRow dr = dt.NewRow();
+            dt.Rows.Add(dr);
+
+            o.GetType().GetProperties().ToList().ForEach(f =>
+            {
+                try
+                {
+                    f.GetValue(o, null);
+                    dt.Columns.Add(f.Name, f.PropertyType);
+                    dt.Rows[0][f.Name] = f.GetValue(o, null);
+                }
+                catch { }
+            });
+            return dt;
         }
     }
 }
