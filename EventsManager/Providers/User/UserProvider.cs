@@ -40,27 +40,15 @@ namespace EventsManager.User
        
         public List<UserProvider> GetUsers()
         {
-            MySqlCommand command = new MySqlCommand("SELECT * FROM user;", connection);
-            dataReader = command.ExecuteReader();
-            dataTable.Load(dataReader);
+            ExecQuery("select * from user;"); 
 
           
-            List<UserProvider> users = new List<UserProvider>(); 
+            List<UserProvider> users = new List<UserProvider>();
 
-            foreach(DataRow row in dataTable.Rows)
-            {
-                UserProvider user = new UserProvider();
-                user.id = Convert.ToInt32(row["id"]);  
-                user.login = row["login"].ToString();
-                user.password = row["password"].ToString();
-                user.role = row["role"].ToString();
-
-                users.Add(user); 
-
-            }
+            users = Utils.ToList<UserProvider>(dataTable); 
 
             //PrintData();
-            ClearData();
+            ClearData(); 
 
             return users; 
 

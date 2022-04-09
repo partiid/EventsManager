@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using EventsManager.User; 
 using System.Windows.Forms;
 using EventsManager.Controllers;
+using EventsManager.Providers.Event;
 
 namespace EventsManager
 {
@@ -18,6 +19,7 @@ namespace EventsManager
         DbConnector database = DbConnector.GetInstance;
 
         private static UserProvider UserProvider = new UserProvider();
+        private static EventProvider EventProvider = new EventProvider(); 
 
         private protected String userLogin = "";
         private protected String userPassword = ""; 
@@ -38,6 +40,8 @@ namespace EventsManager
         private void loginButton_Click(object sender, EventArgs e)
         {
 
+            List<EventProvider> events = EventProvider.GetEvents();
+            events.ForEach(EVENT => Console.WriteLine($"{EVENT.name} - {EVENT.agenda} - {EVENT.date}")); 
 
 
             //validate the fields 

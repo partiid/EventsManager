@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
@@ -9,23 +10,20 @@ using MySql.Data.MySqlClient;
 
 namespace EventsManager.Providers
 {
-    internal class Provider
+    internal  class Provider
     {
         public DataTable dataTable = new DataTable();
         public MySqlDataReader dataReader;
 
 
         public DbConnector db = DbConnector.GetInstance;
-        public MySqlConnection connection = DbConnector.connection; 
-
+        public MySqlConnection connection = DbConnector.connection;
 
         public Provider() { }
 
-        public void ClearData()
-        {
-            dataTable.Clear();
-            dataReader.Close(); 
-        }
+        
+
+      
         public void PrintData()
         {
             foreach (DataRow dr in dataTable.Rows)
@@ -37,6 +35,27 @@ namespace EventsManager.Providers
                 Console.WriteLine();
             }
         }
+        public DataTable ExecQuery(String query)
+        {
+            MySqlCommand command = new MySqlCommand(query, connection);
+            dataReader = command.ExecuteReader();
+            dataTable.Load(dataReader);
+            
+            return dataTable; 
+        }
+        public void ClearData()
+        {
+            dataTable.Clear();
+            dataReader.Close();
+        }
+
+
+
+
+
+
+
+
 
     }
 }

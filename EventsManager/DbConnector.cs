@@ -58,44 +58,7 @@ namespace EventsManager
         }
         
 
-        public List<dynamic> Select(String query)
-        {
-            List<dynamic> result = new List<dynamic>();
-
-            using (connection)
-            {
-                MySqlCommand command = new MySqlCommand(query);
-
-                MySqlDataReader reader = command.ExecuteReader(); 
-
-                if(reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        var obj = new ExpandoObject();
-                        var d = obj as IDictionary<String, object>;
-                        for (int index = 0; index < reader.FieldCount; index++)
-                        {
-                            d[reader.GetName(index)] = reader.GetString(index);
-
-                            result.Add(obj);
-                        }
-                    }
-                    return result;
-                } else
-                {
-                    return null; 
-                    Debug.WriteLine("Chuj");
-                }
-              
-
-
-            }
-            
-               
-           
-        }
-
+      
         private Boolean checkConnection()
         { 
             if(connection.State != System.Data.ConnectionState.Open)
