@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.MaximizeBox = false;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;  //prevent from resizing
+
             this.eventNameInput = new System.Windows.Forms.ComboBox();
             this.eventNameLabel = new System.Windows.Forms.Label();
             this.eventAgenda = new System.Windows.Forms.Label();
@@ -48,14 +51,18 @@
             this.participantPanel = new System.Windows.Forms.Panel();
             this.foodPanel = new System.Windows.Forms.Panel();
             this.signUpView = new System.Windows.Forms.Panel();
+            this.eventsView = new System.Windows.Forms.Panel();
             this.navView = new System.Windows.Forms.Panel();
-            this.userLoginLabel = new System.Windows.Forms.Label();
-            this.navigateSignUpView = new System.Windows.Forms.Button();
             this.navigateEventsView = new System.Windows.Forms.Button();
+            this.navigateSignUpView = new System.Windows.Forms.Button();
+            this.userLoginLabel = new System.Windows.Forms.Label();
+            this.userEventsTable = new System.Windows.Forms.DataGridView();
             this.participantPanel.SuspendLayout();
             this.foodPanel.SuspendLayout();
             this.signUpView.SuspendLayout();
+            this.eventsView.SuspendLayout();
             this.navView.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.userEventsTable)).BeginInit();
             this.SuspendLayout();
             // 
             // eventNameInput
@@ -287,6 +294,14 @@
             this.signUpView.Size = new System.Drawing.Size(795, 493);
             this.signUpView.TabIndex = 20;
             // 
+            // eventsView
+            // 
+            this.eventsView.Controls.Add(this.userEventsTable);
+            this.eventsView.Location = new System.Drawing.Point(169, 24);
+            this.eventsView.Name = "eventsView";
+            this.eventsView.Size = new System.Drawing.Size(795, 493);
+            this.eventsView.TabIndex = 22;
+            // 
             // navView
             // 
             this.navView.Controls.Add(this.navigateEventsView);
@@ -296,26 +311,6 @@
             this.navView.Name = "navView";
             this.navView.Size = new System.Drawing.Size(147, 493);
             this.navView.TabIndex = 21;
-            // 
-            // userLoginLabel
-            // 
-            this.userLoginLabel.BackColor = System.Drawing.SystemColors.Control;
-            this.userLoginLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.userLoginLabel.Location = new System.Drawing.Point(21, 84);
-            this.userLoginLabel.Name = "userLoginLabel";
-            this.userLoginLabel.Size = new System.Drawing.Size(100, 23);
-            this.userLoginLabel.TabIndex = 0;
-            // 
-            // navigateSignUpView
-            // 
-            this.navigateSignUpView.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.navigateSignUpView.Location = new System.Drawing.Point(4, 146);
-            this.navigateSignUpView.Name = "navigateSignUpView";
-            this.navigateSignUpView.Size = new System.Drawing.Size(143, 23);
-            this.navigateSignUpView.TabIndex = 1;
-            this.navigateSignUpView.Text = "Zapis na wydarzenie";
-            this.navigateSignUpView.UseVisualStyleBackColor = true;
-            this.navigateSignUpView.Click += new System.EventHandler(this.navigateSignUpView_Click);
             // 
             // navigateEventsView
             // 
@@ -328,11 +323,45 @@
             this.navigateEventsView.UseVisualStyleBackColor = true;
             this.navigateEventsView.Click += new System.EventHandler(this.navigateEventsView_Click);
             // 
+            // navigateSignUpView
+            // 
+            this.navigateSignUpView.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.navigateSignUpView.Location = new System.Drawing.Point(4, 146);
+            this.navigateSignUpView.Name = "navigateSignUpView";
+            this.navigateSignUpView.Size = new System.Drawing.Size(143, 23);
+            this.navigateSignUpView.TabIndex = 1;
+            this.navigateSignUpView.Text = "Zapis na wydarzenie";
+            this.navigateSignUpView.UseVisualStyleBackColor = true;
+            this.navigateSignUpView.Click += new System.EventHandler(this.navigateSignUpView_Click);
+            // 
+            // userLoginLabel
+            // 
+            this.userLoginLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.userLoginLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.userLoginLabel.Location = new System.Drawing.Point(21, 84);
+            this.userLoginLabel.Name = "userLoginLabel";
+            this.userLoginLabel.Size = new System.Drawing.Size(100, 23);
+            this.userLoginLabel.TabIndex = 0;
+            // 
+            // userEventsTable
+            // 
+            this.userEventsTable.AllowUserToAddRows = false;
+            this.userEventsTable.AllowUserToDeleteRows = false;
+            this.userEventsTable.BackgroundColor = System.Drawing.Color.AliceBlue;
+            this.userEventsTable.GridColor = System.Drawing.SystemColors.HighlightText;
+            this.userEventsTable.Location = new System.Drawing.Point(16, 6);
+            this.userEventsTable.Name = "userEventsTable";
+            this.userEventsTable.ReadOnly = true;
+            this.userEventsTable.Size = new System.Drawing.Size(764, 484);
+            this.userEventsTable.TabIndex = 0;
+            this.userEventsTable.AutoResizeColumns(System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill); 
+            // 
             // UserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(992, 543);
+            this.Controls.Add(this.eventsView);
             this.Controls.Add(this.navView);
             this.Controls.Add(this.signUpView);
             this.Name = "UserForm";
@@ -344,7 +373,9 @@
             this.foodPanel.PerformLayout();
             this.signUpView.ResumeLayout(false);
             this.signUpView.PerformLayout();
+            this.eventsView.ResumeLayout(false);
             this.navView.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.userEventsTable)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -376,5 +407,7 @@
         private System.Windows.Forms.Button navigateEventsView;
         private System.Windows.Forms.Button navigateSignUpView;
         private System.Windows.Forms.Label userLoginLabel;
+        private System.Windows.Forms.Panel eventsView;
+        private System.Windows.Forms.DataGridView userEventsTable;
     }
 }

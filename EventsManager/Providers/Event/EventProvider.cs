@@ -44,6 +44,7 @@ namespace EventsManager.Providers.Event
 
             EventProvider Event = (EventProvider)Utils.ToObject<EventProvider>(dataTable);
 
+            ClearData(); 
             return Event; 
             
             

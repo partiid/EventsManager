@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
-using EventsManager.Providers;
 
-namespace EventsManager.User
+
+namespace EventsManager.Providers
 {
     internal class UserProvider : Provider
     {
@@ -52,6 +52,16 @@ namespace EventsManager.User
 
             return users; 
 
+
+        }
+        public UserProvider GetUserById(int id)
+        {
+            List<UserProvider> users = this.GetUsers();
+            UserProvider userFound = users.Find(user =>
+            {
+                return user.id == id;
+            });
+            return userFound; 
 
         }
         public UserProvider GetUserByLogin(String login)

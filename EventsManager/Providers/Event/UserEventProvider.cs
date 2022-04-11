@@ -1,4 +1,4 @@
-﻿using EventsManager.User;
+﻿using EventsManager.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +15,8 @@ namespace EventsManager.Providers.Event
 
         public int partOption { get; set; }
         public int foodOption { get; set; }
+
+        public int requestApproved { get; set; }
 
         private static UserProvider UserProvider = new UserProvider();
         private static EventProvider EventProvider = new EventProvider(); 
@@ -48,12 +50,24 @@ namespace EventsManager.Providers.Event
 
         }
         
+        public void UpdateRequestApproved(bool approved)
+        {
+            ExecUpdateQuery($"UPDATE userevent set approved={approved}"); 
+
+        }
+        
+        public List<UserEventProvider> GetUserEventRequests()
+        {
+            ExecSelectQuery($"select * from userevent where requestApproved = 0;");
+            List<UserEventProvider> userRequests = new List<UserEventProvider>(Utils.ToList<UserEventProvider>(dataTable));
+
+            ClearData();
+            return userRequests; 
+        }
         public List<UserEventProvider> GetUserEvents()
         {
-            ExecSelectQuery($"select * from userevent where userId={userId};");
-            List<UserEventProvider> userEvents = new List<UserEventProvider>(); 
-            
-            userEvents = Utils.ToList<UserEventProvider>(dataTable);
+            ExecSelectQuery($"select * from userevent where userId={userId} AND requestApproved=1;");
+            List<UserEventProvider> userEvents = new List<UserEventProvider>(Utils.ToList<UserEventProvider>(dataTable)); 
 
             ClearData();
 

@@ -19,7 +19,9 @@ namespace EventsManager.Providers
         public DbConnector db = DbConnector.GetInstance;
         public MySqlConnection connection = DbConnector.connection;
 
-        public Provider() { }
+        public Provider() {
+           
+        }
 
         
 
@@ -44,6 +46,16 @@ namespace EventsManager.Providers
             return dataTable; 
         }
 
+        public void ExecUpdateQuery(String query)
+        {
+            try
+            {
+                MySqlCommand command = new MySqlCommand(query, connection);
+
+                command.ExecuteNonQuery(); 
+            }catch(Exception) { }
+
+        }
         public void ExecInsertQuery(object obj, String tableName, bool includeId = false)
         {
             PropertyInfo[] info = obj.GetType().GetProperties(); 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EventsManager.User; 
+using EventsManager.Providers; 
 namespace EventsManager.Controllers
 {
     internal class Authentication

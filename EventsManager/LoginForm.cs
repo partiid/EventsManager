@@ -7,11 +7,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EventsManager.User; 
+using EventsManager.Providers; 
 using System.Windows.Forms;
 using EventsManager.Controllers;
 using EventsManager.Providers.Event;
-using EventsManager.Providers;
+
 
 namespace EventsManager
 {
@@ -36,17 +36,13 @@ namespace EventsManager
 
         private void UserView_Load(object sender, EventArgs e)
         {
-            
 
         }
 
         private void loginButton_Click(object sender, EventArgs e)
         {
 
-
-
-
-            //validate the fields 
+            //TODO validate the fields 
 
 
             //authenticate user
@@ -62,21 +58,22 @@ namespace EventsManager
                 labelError.Visible = false;
 
                 UserProvider user = UserProvider.GetUserByLogin(this.userLogin);
-                
+                this.Hide();
+                //depending on user role show proper form 
                 if (user.role.ToString() == "user")
                 {
-                    this.Hide(); 
+                    
                     UserForm userForm = new UserForm();
                     userForm.ShowDialog();
-
-                    this.Close(); 
                     
                 } else
                 {
-                    //todo implement admin form and show it 
-
+                    AdminForm adminForm = new AdminForm();
+                    adminForm.ShowDialog(); 
+                    
                 }
                 
+                this.Close();
 
             }
         }
