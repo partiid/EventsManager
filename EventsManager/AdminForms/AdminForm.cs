@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using EventsManager.AdminForms;
 using EventsManager.Controllers;
 using EventsManager.Providers;
 using EventsManager.Providers.Event;
@@ -22,6 +23,11 @@ namespace EventsManager
         private static UserEventProvider UserEventProvider = new UserEventProvider(); 
 
         private static Authentication Authentication = Authentication.GetInstance;
+
+        private String selectedView = "Users";
+
+        //selected row in a table 
+        private Object selectedRow; 
 
         //variables 
         private int userId = Authentication.LoggedUser.id;
@@ -45,6 +51,7 @@ namespace EventsManager
 
             List<UserProvider> users = new List<UserProvider>(UserProvider.GetUsers());
             dataTable.DataSource = users;
+
            /* PropertyInfo[] userProviderProps = UserProvider.GetType().GetProperties();
 
             //pupulate columns 
@@ -77,6 +84,7 @@ namespace EventsManager
             this.ClearDataTable();
             List<EventProvider> events = new List<EventProvider>(EventProvider.GetEvents());
             dataTable.DataSource = events; 
+
             /*
             PropertyInfo[] eventProviderProps = EventProvider.GetType().GetProperties();
 
@@ -108,12 +116,16 @@ namespace EventsManager
         {
             this.ClearDataTable();
 
+            
+
+
             List<UserEventProvider> requests = new List<UserEventProvider>(UserEventProvider.GetUserEventRequests());
 
-            
+            List<userRequest> userRequests = new List<userRequest>();  
+            /*
             dataTable.ColumnCount = 2;
             dataTable.Columns[0].Name = "Użytkownik";
-            dataTable.Columns[1].Name = "Wydarzenie"; 
+            dataTable.Columns[1].Name = "Wydarzenie"; */
 
             //populate rows
             foreach(var request in requests)
@@ -121,11 +133,16 @@ namespace EventsManager
                 UserProvider user = UserProvider.GetUserById(request.userId);
                 EventProvider Event = EventProvider.GetEventById(request.eventId);
 
-                string[] rowScheme = { $"{user.login}", $"{Event.name}" };
+                userRequest ureq = new userRequest(user.login, Event.name, request.requestApproved); 
+                userRequests.Add(ureq); 
+                //string[] rowScheme = { $"{user.login}", $"{Event.name}" };
 
-                dataTable.Rows.Add(rowScheme); 
+                //dataTable.Rows.Add(rowScheme); 
 
             }
+
+            dataTable.DataSource = userRequests; 
+
 
 
             
@@ -138,25 +155,79 @@ namespace EventsManager
 
         private void dataTable_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            //var selectedRow = dataTable.SelectedRows[0].DataBoundItem as 
+            //function to modify a resource 
+
+            Console.WriteLine("Cell content click event fired");
+            switch (selectedView)
+            {
+                case "user":
+                    selectedRow = dataTable.SelectedRows[0].DataBoundItem as UserProvider;
+
+                    break;
+                case "event":
+                    selectedRow = dataTable.SelectedRows[0].DataBoundItem as EventProvider;
+                    break;
+                case "request":
+                    selectedRow = dataTable.SelectedRows[0].DataBoundItem as userRequest;
+                    break; 
+            }
+
+            
 
         }
 
         private void navigateUsers_Click(object sender, EventArgs e)
         {
+            this.selectedView = "user"; 
+
             this.FetchUsersData(); 
         }
 
         private void navigateEvents_Click(object sender, EventArgs e)
         {
+            this.selectedView = "event";
             this.FetchEventsData(); 
         }
 
         private void navigateRequests_Click(object sender, EventArgs e)
         {
+            this.selectedView = "request";
             this.FetchRequestsData(); 
         }
 
        
+
+        private void addButton_Click(object sender, EventArgs e)
+        {
+            AddResourceForm form = new AddResourceForm(this.selectedView);
+            form.ShowDialog(); 
+
+        }
+
+        private void modifyButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void removeButton_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine(selectedRow.GetType().Name); 
+        }
+
+        private class userRequest
+        {
+            public String user { get; set; }
+            public String Event { get; set; }
+
+            public int approved { get; set; }
+
+            public userRequest(String user, String Event, int approved)
+            {
+                this.user = user;
+                this.Event = Event;
+                this.approved = approved;
+            }
+
+        }
     }
 }

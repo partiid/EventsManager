@@ -15,10 +15,11 @@ namespace EventsManager
         {
             var propertyInfo = obj.GetType().GetProperty(propertyName);
             if (propertyInfo == null) return;
+            
             propertyInfo.SetValue(obj, value);
 
         }
-
+       
       
 
         public static List<T> ToList<T>(this DataTable dt)

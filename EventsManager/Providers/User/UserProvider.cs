@@ -37,6 +37,12 @@ namespace EventsManager.Providers
             this.password = password;
         }
 
+        public void AddUser(UserProvider user)
+        {
+            ExecInsertQuery(user, "user"); 
+
+        } 
+
        
         public List<UserProvider> GetUsers()
         {
