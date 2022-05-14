@@ -24,7 +24,7 @@ namespace EventsManager
 
         private static Authentication Authentication = Authentication.GetInstance;
 
-        private String selectedView = "Users";
+        private String selectedView = "user";
 
         //selected row in a table 
         private Object selectedRow; 
@@ -175,6 +175,11 @@ namespace EventsManager
             
 
         }
+        private void dataTable_SelectionChanged(object sender, EventArgs e)
+        {
+            
+            
+        }
 
         private void navigateUsers_Click(object sender, EventArgs e)
         {
@@ -202,16 +207,22 @@ namespace EventsManager
             AddResourceForm form = new AddResourceForm(this.selectedView);
             form.ShowDialog(); 
 
+
         }
 
         private void modifyButton_Click(object sender, EventArgs e)
         {
+            EditResourceForm form = new EditResourceForm(this.selectedView);
+
+            
+
+            form.ShowDialog();
 
         }
 
         private void removeButton_Click(object sender, EventArgs e)
         {
-            Console.WriteLine(selectedRow.GetType().Name); 
+            
         }
 
         private class userRequest

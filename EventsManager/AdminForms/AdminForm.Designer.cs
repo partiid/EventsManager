@@ -124,6 +124,7 @@
             this.dataTable.Size = new System.Drawing.Size(565, 419);
             this.dataTable.TabIndex = 0;
             this.dataTable.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataTable_CellContentClick);
+            
             // 
             // addButton
             // 

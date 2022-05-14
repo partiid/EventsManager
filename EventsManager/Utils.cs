@@ -19,6 +19,11 @@ namespace EventsManager
             propertyInfo.SetValue(obj, value);
 
         }
+
+        public static T CastObject<T>(object input)
+        {
+            return (T)input; 
+        }
        
       
 

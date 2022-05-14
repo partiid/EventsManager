@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -13,27 +14,27 @@ using System.Windows.Forms;
 
 namespace EventsManager.AdminForms
 {
-    public partial class AddResourceForm : Form
+    public partial class EditResourceForm : Form
     {
+        private string formType = "";
+        private Provider prov = new Provider(); 
 
-        private String formType = "";
-        Provider prov = new Provider();
-        public AddResourceForm()
+        public EditResourceForm()
         {
             InitializeComponent();
         }
-        public AddResourceForm(String formType)
+
+        public EditResourceForm(String formType)
         {
-            InitializeComponent(); 
+            InitializeComponent();
             this.formType = formType;
 
-            this.populateForm(); 
+            this.populateForm();
         }
-       
 
         private void populateForm()
         {
-            
+
             Font font = new Font("Georgia", 16);
 
             switch (this.formType)
@@ -46,22 +47,23 @@ namespace EventsManager.AdminForms
                     break;
                 case "userEvent":
                     prov = new UserEventProvider();
-                    break; 
+                    break;
             }
 
             Console.WriteLine(prov.GetType().Name);
 
             PropertyInfo[] propertyInfos = prov.GetType().GetProperties();
-            
 
-            foreach(var property in propertyInfos)
+
+            foreach (var property in propertyInfos)
             {
-                if(property.Name != "id")
+                if (property.Name != "id")
                 {
                     Console.WriteLine(property.Name);
                     Label label = new Label();
                     label.Text = property.Name;
-                    label.Font = font; 
+                    label.Font = font;
+
                     panelLabels.Controls.Add(label);
 
                     TextBox field = new TextBox();
@@ -71,37 +73,14 @@ namespace EventsManager.AdminForms
                     field.Font = font;
                     field.Name = property.Name;
 
-                    panelFields.Controls.Add(field);
+                    fieldsPanel.Controls.Add(field);
                 }
-                
+
 
 
             }
         }
 
-        private void submitBtn_Click(object sender, EventArgs e)
-        {
-
-    
-            //set properties of an object based on field value and name generated in populateForm            
-            foreach (var field in panelFields.Controls)
-            {
-                TextBox fieldSender = (TextBox)field;
-
-                dynamic changedObj = Convert.ChangeType(fieldSender.Text, prov.GetType().GetProperty(fieldSender.Name).PropertyType);
-                Utils.SetProperty(prov, fieldSender.Name, changedObj);
-
-                fieldSender.Text = ""; 
-            }
-
-            prov.ExecInsertQuery(prov, this.formType);
-
-            //Dialog dialog = new Dialog();
-            //dialog.Show(); 
-
-            MessageBox.Show("Pomyślnie dodano"); 
-
-
-        }
+       
     }
 }
