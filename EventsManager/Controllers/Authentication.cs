@@ -53,7 +53,7 @@ namespace EventsManager.Controllers
                         LoggedUser = new UserProvider(user.id, user.login, user.password, user.role);
 
 
-                        Console.WriteLine($"{LoggedUser.id}, {LoggedUser.login}, {LoggedUser.password}, {LoggedUser.role}"); 
+                        
                         return true;
                         
 
@@ -61,7 +61,7 @@ namespace EventsManager.Controllers
                     return false; 
                 }
 
-                Console.WriteLine($"User found: {user.login}");
+                
             }
             catch (NullReferenceException ex)
             {

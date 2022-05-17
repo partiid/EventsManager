@@ -4,7 +4,9 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
 
@@ -39,21 +41,133 @@ namespace EventsManager.Providers
         }
         public DataTable ExecSelectQuery(String query)
         {
-            MySqlCommand command = new MySqlCommand(query, connection);
-            dataReader = command.ExecuteReader();
-            dataTable.Load(dataReader);
-            
-            return dataTable; 
-        }
-
-        public void ExecUpdateQuery(String query)
-        {
             try
             {
                 MySqlCommand command = new MySqlCommand(query, connection);
+                dataReader = command.ExecuteReader();
+                dataTable.Load(dataReader);
+
+                
+
+            } catch(Exception e)
+            {
+                MessageBox.Show(e.Message); 
+            }
+            return dataTable; 
+
+           
+        }
+
+        public void ExecDeleteQuery(String query)
+        {
+            MySqlCommand command = new MySqlCommand(query, connection);
+            command.ExecuteNonQuery(); 
+
+
+        }
+
+        public void ExecUpdateQuery(object obj, string tableName, int condition)
+        {
+            try
+            {
+
+                PropertyInfo[] info = obj.GetType().GetProperties();
+
+
+                //build query out of object 
+                String pair = ""; 
+
+                int numberOfInfo = info.Count();
+                int counter = 0;
+
+                foreach (var prop in info)
+                {
+                    counter++;
+                    if (prop.Name != "id")
+                    {
+                        
+                        if (counter == numberOfInfo)
+                        {
+                            if (prop.PropertyType.Name != "Int32")
+
+                            {
+                                pair += $"{prop.Name}='{prop.GetValue(obj)}', ";
+
+
+                            }
+                            else
+                            {
+                                pair += $"{prop.Name}={prop.GetValue(obj)}, ";
+
+                            }
+
+
+
+                        }
+                        else
+                        {
+                            if (prop.PropertyType.Name != "Int32")
+                            {
+                                pair += $"{prop.Name}='{prop.GetValue(obj)}', ";
+
+
+                            }
+                            else
+                            {
+                                pair += $"{prop.Name}={prop.GetValue(obj)}, ";
+
+                            }
+
+
+
+
+                        }
+
+
+                    }
+
+
+
+
+                }
+                //splice the last comma 
+                
+
+
+                String queryBuilder = $"UPDATE {tableName} SET {pair} where id={condition}";
+
+                Regex r = new Regex(@",");
+                MatchCollection result = r.Matches(queryBuilder);
+
+                int matches_counter = 0;
+                int remove_index = 0; 
+                foreach (Match match in result)
+                {
+                    matches_counter++; 
+                    if(matches_counter == result.Count)
+                    {
+                        remove_index = match.Index; 
+
+                    }
+                }
+
+                if (result.Count > 0)
+                {
+
+                    queryBuilder = queryBuilder.Remove(remove_index, 1);
+                }
+
+                Console.WriteLine(queryBuilder);
+
+                MySqlCommand command = new MySqlCommand(queryBuilder, connection);
 
                 command.ExecuteNonQuery(); 
-            }catch(Exception) { }
+
+            }
+            catch(Exception e) {
+                MessageBox.Show(e.Message);
+                
+                    }
 
         }
         public void ExecInsertQuery(object obj, String tableName, bool includeId = false)
@@ -125,6 +239,7 @@ namespace EventsManager.Providers
             command.ExecuteNonQuery();
 
         }
+
         public void ClearData()
         {
             dataTable.Clear();

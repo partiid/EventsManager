@@ -52,7 +52,7 @@ namespace EventsManager.Providers.Event
         
         public void UpdateRequestApproved(bool approved)
         {
-            ExecUpdateQuery($"UPDATE userevent set approved={approved}"); 
+            //ExecUpdateQuery($"UPDATE userevent set approved={approved}"); 
 
         }
         
@@ -72,6 +72,17 @@ namespace EventsManager.Providers.Event
             ClearData();
 
             return userEvents; 
+
+        }
+
+        public List<UserEventProvider> GetAllUserEvents()
+        {
+            ExecSelectQuery($"select * from userevent;");
+            List<UserEventProvider> userEvents = new List<UserEventProvider>(Utils.ToList<UserEventProvider>(dataTable));
+
+            ClearData();
+
+            return userEvents;
 
         }
 

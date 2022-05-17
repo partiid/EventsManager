@@ -29,7 +29,8 @@
         private void InitializeComponent()
         {
             this.panelLabels = new System.Windows.Forms.FlowLayoutPanel();
-            this.fieldsPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.panelFields = new System.Windows.Forms.FlowLayoutPanel();
+            this.submitEditButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // panelLabels
@@ -39,19 +40,30 @@
             this.panelLabels.Size = new System.Drawing.Size(113, 305);
             this.panelLabels.TabIndex = 0;
             // 
-            // fieldsPanel
+            // panelFields
             // 
-            this.fieldsPanel.Location = new System.Drawing.Point(143, 0);
-            this.fieldsPanel.Name = "fieldsPanel";
-            this.fieldsPanel.Size = new System.Drawing.Size(198, 305);
-            this.fieldsPanel.TabIndex = 1;
+            this.panelFields.Location = new System.Drawing.Point(143, 0);
+            this.panelFields.Name = "panelFields";
+            this.panelFields.Size = new System.Drawing.Size(198, 305);
+            this.panelFields.TabIndex = 1;
+            // 
+            // submitEditButton
+            // 
+            this.submitEditButton.Location = new System.Drawing.Point(143, 355);
+            this.submitEditButton.Name = "submitEditButton";
+            this.submitEditButton.Size = new System.Drawing.Size(101, 43);
+            this.submitEditButton.TabIndex = 2;
+            this.submitEditButton.Text = "Zapisz";
+            this.submitEditButton.UseVisualStyleBackColor = true;
+            this.submitEditButton.Click += new System.EventHandler(this.submitEditButton_Click);
             // 
             // EditResourceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(560, 444);
-            this.Controls.Add(this.fieldsPanel);
+            this.Controls.Add(this.submitEditButton);
+            this.Controls.Add(this.panelFields);
             this.Controls.Add(this.panelLabels);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -64,6 +76,7 @@
         #endregion
 
         private System.Windows.Forms.FlowLayoutPanel panelLabels;
-        private System.Windows.Forms.FlowLayoutPanel fieldsPanel;
+        private System.Windows.Forms.FlowLayoutPanel panelFields;
+        private System.Windows.Forms.Button submitEditButton;
     }
 }

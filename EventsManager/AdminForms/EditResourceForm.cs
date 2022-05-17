@@ -17,25 +17,30 @@ namespace EventsManager.AdminForms
     public partial class EditResourceForm : Form
     {
         private string formType = "";
-        private Provider prov = new Provider(); 
+        private Provider prov = new Provider();
+        private object selectedRow; 
 
         public EditResourceForm()
         {
             InitializeComponent();
         }
 
-        public EditResourceForm(String formType)
+        public EditResourceForm(String formType, Object selectedRow)
         {
             InitializeComponent();
             this.formType = formType;
+            this.selectedRow = selectedRow; 
+            
 
-            this.populateForm();
+            this.populateForm(selectedRow);
         }
 
-        private void populateForm()
+        private void populateForm(Object selectedRow)
         {
 
             Font font = new Font("Georgia", 16);
+
+
 
             switch (this.formType)
             {
@@ -45,20 +50,21 @@ namespace EventsManager.AdminForms
                 case "event":
                     prov = new EventProvider();
                     break;
-                case "userEvent":
+                case "userevent":
                     prov = new UserEventProvider();
                     break;
             }
 
             Console.WriteLine(prov.GetType().Name);
 
-            PropertyInfo[] propertyInfos = prov.GetType().GetProperties();
+            PropertyInfo[] propertyInfos = selectedRow.GetType().GetProperties();
 
 
             foreach (var property in propertyInfos)
             {
                 if (property.Name != "id")
                 {
+
                     Console.WriteLine(property.Name);
                     Label label = new Label();
                     label.Text = property.Name;
@@ -69,11 +75,11 @@ namespace EventsManager.AdminForms
                     TextBox field = new TextBox();
                     field.BackColor = Color.White;
                     field.ForeColor = Color.Black;
-                    field.Text = "";
+                    field.Text = (string)selectedRow.GetType().GetProperty(property.Name).GetValue(selectedRow, null).ToString(); 
                     field.Font = font;
                     field.Name = property.Name;
 
-                    fieldsPanel.Controls.Add(field);
+                    panelFields.Controls.Add(field);
                 }
 
 
@@ -81,6 +87,40 @@ namespace EventsManager.AdminForms
             }
         }
 
-       
+        private void submitEditButton_Click(object sender, EventArgs e)
+        {
+            foreach (var field in panelFields.Controls)
+            {
+                TextBox fieldSender = (TextBox)field;
+
+                
+                try
+                {
+                    dynamic changedObj = Convert.ChangeType(fieldSender.Text, prov.GetType().GetProperty(fieldSender.Name).PropertyType);
+
+                    Utils.SetProperty(prov, fieldSender.Name, changedObj);
+
+                    fieldSender.Text = "";
+                } catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+               
+            }
+
+
+            prov.ExecUpdateQuery(prov, this.formType, (int)selectedRow.GetType().GetProperty("id").GetValue(selectedRow, null));
+
+            
+            
+
+            this.Hide();
+
+
+            //Dialog dialog = new Dialog();
+            //dialog.Show(); 
+
+            MessageBox.Show("Pomyślnie Edytowano");
+        }
     }
 }

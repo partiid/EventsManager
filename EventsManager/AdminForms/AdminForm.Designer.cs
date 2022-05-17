@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             this.navPanel = new System.Windows.Forms.Panel();
+            this.removeButton = new System.Windows.Forms.Button();
+            this.modifyButton = new System.Windows.Forms.Button();
+            this.addButton = new System.Windows.Forms.Button();
             this.navigateRequests = new System.Windows.Forms.Button();
             this.navigateEvents = new System.Windows.Forms.Button();
             this.navigateUsers = new System.Windows.Forms.Button();
             this.adminLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataTable = new System.Windows.Forms.DataGridView();
-            this.addButton = new System.Windows.Forms.Button();
-            this.modifyButton = new System.Windows.Forms.Button();
-            this.removeButton = new System.Windows.Forms.Button();
             this.navPanel.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataTable)).BeginInit();
@@ -56,6 +56,42 @@
             this.navPanel.Name = "navPanel";
             this.navPanel.Size = new System.Drawing.Size(200, 425);
             this.navPanel.TabIndex = 0;
+            // 
+            // removeButton
+            // 
+            this.removeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.removeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.removeButton.Location = new System.Drawing.Point(57, 268);
+            this.removeButton.Name = "removeButton";
+            this.removeButton.Size = new System.Drawing.Size(93, 23);
+            this.removeButton.TabIndex = 6;
+            this.removeButton.Text = "Usuń";
+            this.removeButton.UseVisualStyleBackColor = false;
+            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
+            // 
+            // modifyButton
+            // 
+            this.modifyButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.modifyButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.modifyButton.Location = new System.Drawing.Point(107, 239);
+            this.modifyButton.Name = "modifyButton";
+            this.modifyButton.Size = new System.Drawing.Size(93, 23);
+            this.modifyButton.TabIndex = 5;
+            this.modifyButton.Text = "Edytuj";
+            this.modifyButton.UseVisualStyleBackColor = false;
+            this.modifyButton.Click += new System.EventHandler(this.modifyButton_Click);
+            // 
+            // addButton
+            // 
+            this.addButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.addButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addButton.Location = new System.Drawing.Point(4, 239);
+            this.addButton.Name = "addButton";
+            this.addButton.Size = new System.Drawing.Size(93, 23);
+            this.addButton.TabIndex = 4;
+            this.addButton.Text = "Dodaj nowy";
+            this.addButton.UseVisualStyleBackColor = false;
+            this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
             // navigateRequests
             // 
@@ -123,44 +159,7 @@
             this.dataTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataTable.Size = new System.Drawing.Size(565, 419);
             this.dataTable.TabIndex = 0;
-            this.dataTable.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataTable_CellContentClick);
-            
-            // 
-            // addButton
-            // 
-            this.addButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.addButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.addButton.Location = new System.Drawing.Point(4, 239);
-            this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(93, 23);
-            this.addButton.TabIndex = 4;
-            this.addButton.Text = "Dodaj nowy";
-            this.addButton.UseVisualStyleBackColor = false;
-            this.addButton.Click += new System.EventHandler(this.addButton_Click);
-            // 
-            // modifyButton
-            // 
-            this.modifyButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.modifyButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.modifyButton.Location = new System.Drawing.Point(107, 239);
-            this.modifyButton.Name = "modifyButton";
-            this.modifyButton.Size = new System.Drawing.Size(93, 23);
-            this.modifyButton.TabIndex = 5;
-            this.modifyButton.Text = "Edytuj";
-            this.modifyButton.UseVisualStyleBackColor = false;
-            this.modifyButton.Click += new System.EventHandler(this.modifyButton_Click);
-            // 
-            // removeButton
-            // 
-            this.removeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.removeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.removeButton.Location = new System.Drawing.Point(57, 268);
-            this.removeButton.Name = "removeButton";
-            this.removeButton.Size = new System.Drawing.Size(93, 23);
-            this.removeButton.TabIndex = 6;
-            this.removeButton.Text = "Usuń";
-            this.removeButton.UseVisualStyleBackColor = false;
-            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
+            this.dataTable.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataTable_RowHeaderMouseClick);
             // 
             // AdminForm
             // 

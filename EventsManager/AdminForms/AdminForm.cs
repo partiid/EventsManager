@@ -27,7 +27,7 @@ namespace EventsManager
         private String selectedView = "user";
 
         //selected row in a table 
-        private Object selectedRow; 
+        private Object selectedRow = null; 
 
         //variables 
         private int userId = Authentication.LoggedUser.id;
@@ -43,14 +43,23 @@ namespace EventsManager
             //dataTable.Columns.Clear();
             //dataTable.Rows.Clear(); 
             dataTable.DataSource = null; 
+
         }
-        
+        private bool isRowSelected()
+        {
+            if(selectedRow != null)
+            {
+                return true; 
+            }
+            return false; 
+        }
         private void FetchUsersData()
         {
             this.ClearDataTable(); 
 
             List<UserProvider> users = new List<UserProvider>(UserProvider.GetUsers());
             dataTable.DataSource = users;
+
 
            /* PropertyInfo[] userProviderProps = UserProvider.GetType().GetProperties();
 
@@ -116,87 +125,86 @@ namespace EventsManager
         {
             this.ClearDataTable();
 
-            
+            List<UserEventProvider> requests = new List<UserEventProvider>(UserEventProvider.GetAllUserEvents());
+            dataTable.DataSource = requests;
 
-
-            List<UserEventProvider> requests = new List<UserEventProvider>(UserEventProvider.GetUserEventRequests());
-
-            List<userRequest> userRequests = new List<userRequest>();  
             /*
-            dataTable.ColumnCount = 2;
-            dataTable.Columns[0].Name = "Użytkownik";
-            dataTable.Columns[1].Name = "Wydarzenie"; */
+                        List<userRequest> userRequests = new List<userRequest>();  
+                        *//*
+                        dataTable.ColumnCount = 2;
+                        dataTable.Columns[0].Name = "Użytkownik";
+                        dataTable.Columns[1].Name = "Wydarzenie"; *//*
 
-            //populate rows
-            foreach(var request in requests)
-            {
-                UserProvider user = UserProvider.GetUserById(request.userId);
-                EventProvider Event = EventProvider.GetEventById(request.eventId);
+                        //populate rows
+                        foreach(var request in requests)
+                        {
+                            UserProvider user = UserProvider.GetUserById(request.userId);
+                            EventProvider Event = EventProvider.GetEventById(request.eventId);
 
-                userRequest ureq = new userRequest(user.login, Event.name, request.requestApproved); 
-                userRequests.Add(ureq); 
-                //string[] rowScheme = { $"{user.login}", $"{Event.name}" };
+                            userRequest ureq = new userRequest(user.login, Event.name, request.requestApproved); 
+                            userRequests.Add(ureq); 
 
-                //dataTable.Rows.Add(rowScheme); 
+                            //string[] rowScheme = { $"{user.login}", $"{Event.name}" };
 
-            }
+                            //dataTable.Rows.Add(rowScheme); 
 
-            dataTable.DataSource = userRequests; 
-
+                        }*/
 
 
-            
+
+
+
+
 
         }
         private void AdminForm_Load(object sender, EventArgs e)
         {
             this.FetchUsersData();
-        }
-
-        private void dataTable_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            //function to modify a resource 
-
-            Console.WriteLine("Cell content click event fired");
-            switch (selectedView)
-            {
-                case "user":
-                    selectedRow = dataTable.SelectedRows[0].DataBoundItem as UserProvider;
-
-                    break;
-                case "event":
-                    selectedRow = dataTable.SelectedRows[0].DataBoundItem as EventProvider;
-                    break;
-                case "request":
-                    selectedRow = dataTable.SelectedRows[0].DataBoundItem as userRequest;
-                    break; 
-            }
-
-            
 
         }
+
+      
         private void dataTable_SelectionChanged(object sender, EventArgs e)
         {
             
             
         }
 
+        public void UpdateData(string sv)
+        {
+            switch (sv)
+            {
+                case "user":
+                    this.FetchUsersData();
+                    break;
+                case "event":
+                    this.FetchEventsData();
+                    break;
+                case "userevent":
+                    this.FetchRequestsData();
+                    break; 
+
+            }
+        }
         private void navigateUsers_Click(object sender, EventArgs e)
         {
-            this.selectedView = "user"; 
+            this.selectedRow = null; 
+            this.selectedView = "user";
 
             this.FetchUsersData(); 
         }
 
         private void navigateEvents_Click(object sender, EventArgs e)
         {
+            this.selectedRow = null;
             this.selectedView = "event";
             this.FetchEventsData(); 
         }
 
         private void navigateRequests_Click(object sender, EventArgs e)
         {
-            this.selectedView = "request";
+            this.selectedRow = null;
+            this.selectedView = "userevent";
             this.FetchRequestsData(); 
         }
 
@@ -205,24 +213,48 @@ namespace EventsManager
         private void addButton_Click(object sender, EventArgs e)
         {
             AddResourceForm form = new AddResourceForm(this.selectedView);
+
+
             form.ShowDialog(); 
+
+
 
 
         }
 
         private void modifyButton_Click(object sender, EventArgs e)
         {
-            EditResourceForm form = new EditResourceForm(this.selectedView);
+            if(this.isRowSelected() == true)
+            {
+
+                EditResourceForm form = new EditResourceForm(this.selectedView, this.selectedRow);
+                form.ShowDialog();
+                
+
+            } else
+            {
+                MessageBox.Show("Musisz najpierw wybrać rząd!"); 
+            }
+
+
 
             
 
-            form.ShowDialog();
 
         }
 
         private void removeButton_Click(object sender, EventArgs e)
         {
-            
+            Provider prov = new Provider(); 
+
+            if(this.isRowSelected() == true)
+            {
+                prov.ExecDeleteQuery($"delete from {this.selectedView} where id={(int)selectedRow.GetType().GetProperty("id").GetValue(selectedRow, null)}");
+
+                this.UpdateData(this.selectedView); 
+
+                MessageBox.Show("Usunięto");
+            }
         }
 
         private class userRequest
@@ -238,6 +270,27 @@ namespace EventsManager
                 this.Event = Event;
                 this.approved = approved;
             }
+
+        }
+
+        private void dataTable_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            
+            Console.WriteLine("row header event click event fired");
+            switch (selectedView)
+            {
+                case "user":
+                    selectedRow = dataTable.SelectedRows[0].DataBoundItem as UserProvider;
+
+                    break;
+                case "event":
+                    selectedRow = dataTable.SelectedRows[0].DataBoundItem as EventProvider;
+                    break;
+                case "userevent":
+                    selectedRow = dataTable.SelectedRows[0].DataBoundItem as UserEventProvider;
+                    break;
+            }
+
 
         }
     }

@@ -21,7 +21,7 @@ namespace EventsManager.Providers.Event
             this.id = id;
             this.name = name;
             this.agenda = agenda;
-            this.date = date; 
+            this.date = date;
 
         }
 

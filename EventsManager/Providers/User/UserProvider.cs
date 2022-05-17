@@ -42,7 +42,6 @@ namespace EventsManager.Providers
             ExecInsertQuery(user, "user"); 
 
         } 
-
        
         public List<UserProvider> GetUsers()
         {
@@ -80,6 +79,19 @@ namespace EventsManager.Providers
             
 
             return userFound;
+
+        }
+
+        public void EditUser(UserProvider user)
+        {
+
+            int user_id = user.id;
+            if(user_id != null)
+            {
+
+                //ExecUpdateQuery($"UPDATE user SET login='{user.login}' password='{user.password}' role='{user.role}' where id={user_id}"); 
+
+            }
 
         }
     }
