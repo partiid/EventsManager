@@ -16,6 +16,9 @@ namespace EventsManager.Providers
         public String login { get; set; }
         public String password { get; set; }
         public String role { get; set; }
+        public String name { get; set; }
+        public String lastname { get; set; }
+
 
         
         
@@ -23,6 +26,13 @@ namespace EventsManager.Providers
         public UserProvider() {
             
         }
+        public UserProvider(string login, string password, string role, string name, string lastname) : this(login, password)
+        {
+            this.name = name;
+            this.lastname = lastname;
+            this.role = role; 
+        }
+
         public UserProvider(int id, String login, String password, String role)
         {
             this.id = id;

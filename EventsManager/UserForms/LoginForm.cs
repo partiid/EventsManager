@@ -11,7 +11,7 @@ using EventsManager.Providers;
 using System.Windows.Forms;
 using EventsManager.Controllers;
 using EventsManager.Providers.Event;
-
+using EventsManager.UserForms;
 
 namespace EventsManager
 {
@@ -87,6 +87,25 @@ namespace EventsManager
         private void passwordInput_TextChanged(object sender, EventArgs e)
         {
             this.userPassword = passwordInput.Text;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                this.passwordInput.PasswordChar = '\0';
+
+            } else
+            {
+                this.passwordInput.PasswordChar = '*';
+            }
+        }
+
+        private void registerButton_Click(object sender, EventArgs e)
+        {
+            RegisterForm registerForm = new RegisterForm();
+            registerForm.ShowDialog();
+            this.Close();
         }
     }
 }

@@ -28,22 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.MaximizeBox = false;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;  //prevent from resizing
-
             this.loginButton = new System.Windows.Forms.Button();
             this.loginInput = new System.Windows.Forms.TextBox();
             this.passwordInput = new System.Windows.Forms.TextBox();
             this.passwordLabel = new System.Windows.Forms.Label();
             this.loginLabel = new System.Windows.Forms.Label();
             this.labelError = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.registerButton = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // loginButton
             // 
             this.loginButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.loginButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.loginButton.Location = new System.Drawing.Point(61, 204);
+            this.loginButton.Location = new System.Drawing.Point(60, 222);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(165, 30);
             this.loginButton.TabIndex = 0;
@@ -63,6 +62,7 @@
             // 
             this.passwordInput.Location = new System.Drawing.Point(61, 153);
             this.passwordInput.Name = "passwordInput";
+            this.passwordInput.PasswordChar = '*';
             this.passwordInput.Size = new System.Drawing.Size(165, 20);
             this.passwordInput.TabIndex = 2;
             this.passwordInput.TextChanged += new System.EventHandler(this.passwordInput_TextChanged);
@@ -97,17 +97,42 @@
             this.labelError.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelError.Visible = false;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(146, 137);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(86, 17);
+            this.checkBox1.TabIndex = 6;
+            this.checkBox1.Text = "Pokaż hasło";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // registerButton
+            // 
+            this.registerButton.AutoSize = true;
+            this.registerButton.Location = new System.Drawing.Point(60, 270);
+            this.registerButton.Name = "registerButton";
+            this.registerButton.Size = new System.Drawing.Size(154, 13);
+            this.registerButton.TabIndex = 7;
+            this.registerButton.Text = "Nie masz konta? Zarejestruj się";
+            this.registerButton.Click += new System.EventHandler(this.registerButton_Click);
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(288, 457);
+            this.ClientSize = new System.Drawing.Size(287, 493);
+            this.Controls.Add(this.registerButton);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.labelError);
             this.Controls.Add(this.loginLabel);
             this.Controls.Add(this.passwordLabel);
             this.Controls.Add(this.passwordInput);
             this.Controls.Add(this.loginInput);
             this.Controls.Add(this.loginButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "LoginForm";
             this.Text = "EventManager";
             this.Load += new System.EventHandler(this.UserView_Load);
@@ -124,6 +149,8 @@
         private System.Windows.Forms.Label passwordLabel;
         private System.Windows.Forms.Label loginLabel;
         private System.Windows.Forms.Label labelError;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label registerButton;
     }
 }
 
